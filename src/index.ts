@@ -6,7 +6,7 @@ const app = new Hono()
 
 app.route('/', verification)
 app.onError((err, _c) => {
-  // if (err instanceof )
+  console.warn('Error:', err)
   if (err instanceof HTTPException) {
     return err.getResponse()
   }
