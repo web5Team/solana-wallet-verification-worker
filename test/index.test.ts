@@ -10,7 +10,7 @@ const keypair = Keypair.fromSeed(seed.subarray(0, 32))
 const nonce = 'test'
 describe('tx', () => {
   it('should validate tx', async () => {
-    const request = new Request(`http://localhost/create?publicKeyStr=${keypair.publicKey.toBase58()}&nonce=test`)
+    const request = new Request(`http://localhost/create?publicKeyStr=${keypair.publicKey.toBase58()}&nonce=${nonce}`)
     const result = await app.request(request, {}, process.env)
     const json = await result.json()
     expect(json).toHaveProperty('tx')
