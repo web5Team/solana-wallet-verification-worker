@@ -37,11 +37,9 @@ app.post('validate', zValidator('json', ValidateReqSchema, zValidatorHook), asyn
   const { signedTx, nonce } = c.req.valid('json')
   const tx = Transaction.from(Buffer.from(signedTx, 'base64'))
 
-  const inx = tx.instructions.at(0)
+  const inx = tx.instructions.find(ins => ins.programId.equals(MEMO_PROGRAM_ID))
   if (!inx)
-    throw new Error('No instruction found')
-  if (!inx.programId.equals(MEMO_PROGRAM_ID))
-    throw new Error('Invalid program id')
+    throw new Error('No valid instruction found')
   if (inx.data.toString('utf8') !== nonce)
     throw new Error('Invalid nonce')
   if (!tx.verifySignatures())
